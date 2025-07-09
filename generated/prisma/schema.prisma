@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Operaria {
+  id               Int               @id @default(autoincrement())
+  nombre           String
+  codigo           String?           @unique
+  activo           Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  registrosTiempos RegistroTiempos[]
+}
+
+model RegistroTiempos {
+  id                  Int      @id @default(autoincrement())
+  operariaId          Int
+  operaria            Operaria @relation(fields: [operariaId], references: [id], onDelete: Cascade)
+  proceso             String
+  condicion           String
+  tiempo1             String
+  tiempo2             String
+  tiempo3             String
+  tiempo4             String
+  tiempo5             String
+  tiempo6             String?
+  tiempo7             String?
+  tiempo8             String?
+  tiempo9             String?
+  tiempo10            String?
+  promedioSegundos    Float
+  promedioMinutos     Float
+  promedioSegAjustado Float
+  promedioMinAjustado Float
+  produccionPorHora   Float
+  produccionConMitad  Float
+  produccionConTotal  Float
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
